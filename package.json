@@ -2,7 +2,7 @@
   "name": "@org/source",
   "version": "0.0.0",
   "license": "MIT",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node dist/apps/flights-api/main.js"
   },

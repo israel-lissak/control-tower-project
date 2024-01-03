@@ -2,10 +2,9 @@ import express from 'express';
 import { Sequelize } from 'sequelize';
 import flightsRouter from './routes/flightsRouter';
 
-async function startServer() {
   const app = express();
 
-  const sequelizeConection = new Sequelize('flights', 'postgres', 'postsqlilil', {
+  const sequelizeConection = await new Sequelize('flights', 'postgres', 'postsqlilil', {
     host: 'localhost',
     dialect: 'postgres',
     logging: false,
@@ -29,10 +28,5 @@ async function startServer() {
     console.log(`Listening at http://localhost:${port}/api`);
   });
   server.on('error', console.error);
-
-  return sequelizeConection;
-}
-
-const sequelizeConection = startServer();
 
 export { sequelizeConection };
