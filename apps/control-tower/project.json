@@ -24,7 +24,8 @@
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "control-tower:build"
+        "buildTarget": "control-tower:build",
+        "proxyConfig": "apps/control-tower/proxy.conf.json"
       },
       "configurations": {
         "development": {

@@ -1,0 +1,53 @@
+{
+  "name": "pilots-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/pilots-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/pilots-api",
+        "main": "apps/pilots-api/src/main.ts",
+        "tsConfig": "apps/pilots-api/tsconfig.app.json",
+        "assets": ["apps/pilots-api/src/assets"],
+        "webpackConfig": "apps/pilots-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "pilots-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "pilots-api:build:development"
+        },
+        "production": {
+          "buildTarget": "pilots-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/pilots-api/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
