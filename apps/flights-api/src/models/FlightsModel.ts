@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 // import sequelize from 'apps/flights-api/src/configs/db';
-import  sequelizeConection  from 'apps/flights-api/src/main'
+import  {sequelizeConection}  from 'apps/flights-api/src/main'
 
 const Flights = sequelizeConection.define('flights', {
   flight_id: {
@@ -14,6 +14,7 @@ const Flights = sequelizeConection.define('flights', {
   departure_point: {
     type: DataTypes.JSON,
   },
+
   arrival_point: {
     type: DataTypes.JSON,
   },
