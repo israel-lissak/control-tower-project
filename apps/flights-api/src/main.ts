@@ -1,14 +1,8 @@
 import express from 'express';
-import { Sequelize } from 'sequelize';
 import flightsRouter from './routes/flightsRouter';
+import sequelizeConection from './configs/db'
 
   const app = express();
-
-  const sequelizeConection = await new Sequelize('flights', 'postgres', 'postsqlilil', {
-    host: 'localhost',
-    dialect: 'postgres',
-    logging: false,
-  });
 
   try {
     await sequelizeConection.authenticate();
@@ -25,7 +19,7 @@ import flightsRouter from './routes/flightsRouter';
 
   const port = process.env.PORT || 3333;
   const server = app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}/api`);
+    console.log(`Listening at http://localhost:${port}/`);
   });
   server.on('error', console.error);
 

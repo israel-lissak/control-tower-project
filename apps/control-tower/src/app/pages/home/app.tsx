@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import MapComponent from './Map';
-import Alerts from './Alerts';
-import NavBar from './NavBar';
+import MapComponent from './components/Map';
+import Alerts from './components/Alerts';
+import NavBar from './components/NavBar';
 
 
 export function App() {

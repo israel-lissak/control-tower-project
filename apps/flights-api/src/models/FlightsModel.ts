@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 // import sequelize from 'apps/flights-api/src/configs/db';
-import  {sequelizeConection}  from 'apps/flights-api/src/main'
+import  sequelizeConection  from 'apps/flights-api/src/configs/db'
 
 const Flights = sequelizeConection.define('flights', {
   flight_id: {
@@ -24,6 +24,9 @@ const Flights = sequelizeConection.define('flights', {
   pilot_email: {
     type: DataTypes.STRING,
   },
-});
+},{
+  timestamps: false
+}
+);
 
 export default Flights;

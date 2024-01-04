@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 
-import App from './app';
-import SignUp from './SignUp';
-import PilotPage from './PilotPage';
-import Login from './Login';
+import App from './pages/home/app';
+import SignUp from './pages/sign-up/SignUp';
+import PilotPage from './pages/pilot/PilotPage';
+import Login from './pages/log-in/Login';
 
 const Router = () => {
   return (
