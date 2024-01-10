@@ -19,13 +19,19 @@ import { Feature } from 'ol';
 import Point from 'ol/geom/Point';
 import VectorLayer from 'ol/layer/Vector';
 
+import { useAtom } from 'jotai';
+import { flightsLocation } from '../app'
+
 interface MapComponentProps {
     points: {height: number, width: number }[];
   }
 
 
-function MapComponent({ points }: MapComponentProps) {
-    const features = points.map((point) => new Feature(new Point([point.height, point.width])));
+function MapComponent() {
+
+  const [points, setPoints] = useAtom(flightsLocation)
+
+  const features = points.map((point) => new Feature(new Point([point.height, point.width])));
 
   
   // State inizialization - State for Map ref and Map
@@ -59,7 +65,7 @@ function MapComponent({ points }: MapComponentProps) {
       ],
       view: new View({
         center: [3893903,3770461],
-        zoom: 8,
+        zoom: 1,
         minZoom: 0,
         maxZoom: 28,
       }),
@@ -67,7 +73,7 @@ function MapComponent({ points }: MapComponentProps) {
     map.setTarget(mapTargetElement.current || "")
     setMap(map)
     return () => map.setTarget("")
-  }, [])
+  }, [points])
 
   
   return (
@@ -77,7 +83,7 @@ function MapComponent({ points }: MapComponentProps) {
         className="map"
         style={{
           width: "85vw",
-          height: "600px",
+          height: "400px",
           position: "relative",
         }} >
       </div>

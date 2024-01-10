@@ -1,5 +1,27 @@
 import express from 'express';
 import Flights from "../models/FlightsModel";
+import { t } from '../trpc';
+import { z } from 'zod';
+import { FlightType } from '../types/flightType';
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371; 
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return distance;
+}
+
+function toRad(degrees) {
+  return (degrees * Math.PI) / 180;
+}
+
+
 
 const flightsRouter = express.Router();
 
@@ -18,17 +40,49 @@ flightsRouter.get('/allflights', async (req, res) => {
   }
 });
 
-flightsRouter.get('/achi', async (req, res) => {
-  try {
 
-    res.send({ message: 'achi' });
+const appRouter = t.router({
 
-  } catch (error) {
+  getAllFlights: t.procedure.query(async () => {
 
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    const rowData = await Flights.findAll();
+    const flights = rowData.map((flight) => flight.get())
+    
+    return flights;
+  }),
 
-  }
+  // updateFlights: t.procedure.input(z.object({
+  //   flight_number: z.string(),
+  //   current_point: z.object({
+  //     height: z.number(),
+  //     width: z.number()
+  //   })
+  // })).mutation(async (req) => {
+  //   const { flight_number, current_point } = req.input;
+  //   const rowData = await Flights.update({ current_point }, { where: { flight_number } });
+  // }),
+  
+  getAlerts: t.procedure.query(async () => {
+    
+    const rowData = await Flights.findAll();
+    const flights = rowData.map((flight) => flight.get())
+    let alerts: string[] = []
+    
+    flights.map((flight)=>{
+      flights.map((flight2)=>{
+
+        const distance = haversine(flight.current_point.width, flight.current_point.height, flight2.current_point.width, flight2.current_point.height)
+        if(distance < 9815 && flight.flight_number !== flight2.flight_number)
+        alerts.push(`hay ${flight.flight_number} your distance from ${flight2.flight_number} is ${distance}`)
+      })
+    })
+
+    if (alerts.length === 0) alerts.push('no alerts')
+    
+    return alerts;
+  })
+
 });
 
-export default flightsRouter;
+
+export { flightsRouter, appRouter };

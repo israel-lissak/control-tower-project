@@ -9,11 +9,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-function generateToken(email: string) {
-  const secretKey = process.env.ACCESS_TOKEN_SECRET; 
-  const token = jwt.sign({ email }, secretKey);
-  return token;
-}
+// function generateToken(email: string) {
+//   const secretKey = process.env.ACCESS_TOKEN_SECRET; 
+//   const token = jwt.sign({ email }, secretKey);
+//   return token;
+// }
 
 app.use(
   postgraphile(
