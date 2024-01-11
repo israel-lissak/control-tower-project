@@ -3,20 +3,35 @@ import { useNavigate } from 'react-router-dom';
 function NavBar() {
   const navigate = useNavigate();
   return (
-    <div style={{"display": "flex", "justifyContent": "space-around", "alignItems": "center"}}>
+    <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center"}}>
+
+      <div style={{"display": "flex", "alignItems": "center"}}>
+        <img src="./control-tower.png" alt="control tower logo" style={{"width": "75px", "padding": "5px"}}/>
+        <h1 
+          className="text-center text-green-900 font-bold text-3xl" 
+        >control tower</h1>
+      </div>
+
+      <div style={{"display": "flex", "alignItems": "center"}}>
         <button
-         style={{'border': '1px solid black', 'borderRadius': '5px', 'padding': '5px'}}
          onClick={() => {
             navigate('/login')
          }}
-         >log in</button>
+         className= "bg-gray-500 hover:bg-gray-300 text-white font-bold py-2 px-4 rounded m-2"
+         >go to pilot page</button>
+
         <button 
-        style={{"border": "1px solid black", "borderRadius": "5px", "padding": "5px"}}
         onClick={() => {
             navigate('/signup')
         }}
+        className= "bg-gray-500 hover:bg-gray-300 text-white font-bold py-2 px-4 rounded m-2"
         >sign up</button>
-        <img src="./control-tower.png" alt="control tower logo" style={{"width": "100px"}}/>
+
+      </div>
+      
+
+
+
     </div>
   )
 }

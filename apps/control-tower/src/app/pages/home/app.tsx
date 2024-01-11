@@ -43,7 +43,6 @@ export function App() {
       }
     };
 
-
     fetchFlightsLocation();
   }, []);
 
@@ -52,16 +51,14 @@ export function App() {
 
       <NavBar />
 
-      <h1 
-        className="text-center text-green-900 font-bold text-3xl" 
-      >control tower</h1>
-
       <FlightsLocation />
 
       <p 
         className="text-center text-green-900 font-bold text-2xl"
       >the map</p>
-      <MapComponent />
+      <div className="flex flex-col items-center justify-center bg-gray-100 p-4">
+        <MapComponent />
+      </div>
 
       {/* <Alerts /> */}
 

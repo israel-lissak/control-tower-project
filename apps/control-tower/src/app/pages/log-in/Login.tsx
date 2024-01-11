@@ -62,6 +62,7 @@ export default function Login(): JSX.Element {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [wrongPassword, setWrongPassword] = useState("");
 
   const { loading, error, sendRequest } = useGraphQLRequest();
 
@@ -84,6 +85,7 @@ export default function Login(): JSX.Element {
         navigate(`/pilot/${email}`);
       } else {
         console.log('password is incorrect');
+        setWrongPassword("password is incorrect");
       }
     } catch (error: any) {
       console.error(error.message);
@@ -111,7 +113,7 @@ export default function Login(): JSX.Element {
       </div>
 
       <h1
-        className="mb-12 pb-1 pt-1 text-center text-3xl font-bold text-gray-900 dark:text-white"
+        className=" pb-1 pt-1 text-center text-3xl font-bold text-gray-900 dark:text-white"
         >
         Log in
       </h1>
@@ -161,6 +163,7 @@ export default function Login(): JSX.Element {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       ></input>
+                      <p className="text-s text-red-500 italic ">{`${wrongPassword}`}</p>
 
                     <br />
 
