@@ -51,16 +51,18 @@ const appRouter = t.router({
     return flights;
   }),
 
-  // updateFlights: t.procedure.input(z.object({
-  //   flight_number: z.string(),
-  //   current_point: z.object({
-  //     height: z.number(),
-  //     width: z.number()
-  //   })
-  // })).mutation(async (req) => {
-  //   const { flight_number, current_point } = req.input;
-  //   const rowData = await Flights.update({ current_point }, { where: { flight_number } });
-  // }),
+  updateFlights: t.procedure.input(z.object({
+    flight_number: z.string(),
+    current_point: z.object({
+      height: z.number(),
+      width: z.number()
+    })
+  })).mutation(async (req) => {
+    const { flight_number, current_point } = req.input;
+    const rowData = await Flights.update(
+      { current_point: { height: current_point.height, width: current_point.width } }, 
+      { where: { flight_number: flight_number }}
+    );  }),
   
   getAlerts: t.procedure.query(async () => {
     
@@ -72,7 +74,7 @@ const appRouter = t.router({
       flights.map((flight2)=>{
 
         const distance = haversine(flight.current_point.width, flight.current_point.height, flight2.current_point.width, flight2.current_point.height)
-        if(distance < 9815 && flight.flight_number !== flight2.flight_number)
+        if(distance < 5000 && flight.flight_number !== flight2.flight_number)
         alerts.push(`hay ${flight.flight_number} your distance from ${flight2.flight_number} is ${distance}`)
       })
     })

@@ -56,7 +56,7 @@ function Trpc() {
       </ul> */}
 
 
-      <div>
+      <div className='w-96 m-auto'>
         <h2 className="text-center text-green-900 font-bold text-2xl">Alerts</h2>
 
         <ul className="center">
@@ -69,6 +69,7 @@ function Trpc() {
             ))}
         </ul>
       </div>
+
     </div>
   )
 }

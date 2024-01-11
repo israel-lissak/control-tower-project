@@ -32,6 +32,9 @@ const Flights = sequelizeConection.define<Model<FlightType, Omit<FlightType, "fl
 }
 );
 
+export default Flights;
+
+
 // import { Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
 
 // // order of InferAttributes & InferCreationAttributes is important.
@@ -74,5 +77,3 @@ const Flights = sequelizeConection.define<Model<FlightType, Omit<FlightType, "fl
 //   modelName: 'flights',
 //   timestamps: false
 // })
-
-export default Flights;

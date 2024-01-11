@@ -1,11 +1,25 @@
 import { useAtom } from 'jotai';
 import { flightsLocation } from '../app';
-import { useState } from 'react';
+// import { useState } from 'react';
+
+import { createTRPCProxyClient, httpBatchLink} from '@trpc/client';
+import { AppRouter } from '../../../../../../flights-api/src/main';
+import { useEffect, useState } from 'react';
+import { FlightType } from 'apps/flights-api/src/types/flightType';
+
+const client = createTRPCProxyClient<AppRouter>({
+    links: [
+        httpBatchLink({
+            url: 'http://localhost:3333/trpc'
+        }),
+    ],
+})
+
 
 function FlightsLocation() {
 
     const [location, setLocation] = useAtom(flightsLocation);
-    const [visible, setVisible] = useState<boolean>(false)
+    const [visible, setVisible] = useState<boolean>(true)
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100 p-4">
 
@@ -23,6 +37,7 @@ function FlightsLocation() {
                 <div key={index} className="flex flex-col items-center justify-center border-2 rounded-lg p-4">
 
                     <p>{`hight: ${item.height}, width: ${item.width}`}</p>
+                    <p>flight number: {item.flight_number}</p>
 
                     <input 
                     type="text" 
@@ -31,14 +46,19 @@ function FlightsLocation() {
                     id={`height-${index}`}
                     />
                     <button
-                    onClick={() => {
-                        const newLocation = [...location];
-                        newLocation[index].height = parseInt(document.querySelector(`#height-${index}`)!.value);
-                        setLocation(newLocation);
+                    onClick={async () => {
+                        const heightInputElement = document.querySelector(`#height-${index}`);
+                        if (heightInputElement && heightInputElement instanceof HTMLInputElement) {
+                            const newLocation = [...location];
+                            newLocation[index].height = parseInt(heightInputElement.value);
+                            setLocation(newLocation);
+                        }
+                        await client.updateFlights.mutate({flight_number: item.flight_number, current_point: location[index]})
+
                     }}
                     className= "bg-blue-300 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded m-2"
                     >
-                        change height
+                    change height
                     </button>
 
                     <input 
@@ -48,14 +68,19 @@ function FlightsLocation() {
                     id= {`width-${index}`}
                     />
                     <button
-                    onClick={() => {
-                        const newLocation = [...location];
-                        newLocation[index].width = parseInt(document.querySelector(`#width-${index}`)!.value);
-                        setLocation(newLocation);
+                    onClick={async () => {
+                        const widthInputElement = document.querySelector(`#width-${index}`);
+                        if (widthInputElement && widthInputElement instanceof HTMLInputElement) {
+                            const newLocation = [...location];
+                            newLocation[index].width = parseInt(widthInputElement.value);
+                            setLocation(newLocation);
+                        }
+                        await client.updateFlights.mutate({flight_number: item.flight_number, current_point: location[index]})
+
                     }}
                     className= "bg-blue-300 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded m-2"
                     >
-                        change width
+                    change width
                     </button>
                 </div>
             ))}

@@ -22,7 +22,7 @@ const client = createTRPCProxyClient<AppRouter>({
 })
 
 
-export const flightsLocation = atom([{height: 0, width: 0}, {height: 1000000, width: 1000000}, {height: 2000000, width: 2000000}])
+export const flightsLocation = atom([{flight_number: "", height: 3000000, width: 3000000}])
 
 export function App() {
   const [flightsLocationAtom, setFlightsLocationAtom] = useAtom(flightsLocation)
@@ -33,6 +33,7 @@ export function App() {
         const data = await client.getAllFlights.query()
         setFlightsLocationAtom(data.map((flight: FlightType) => {
           return {
+            flight_number: flight.flight_number,
             height: flight.current_point.height,
             width: flight.current_point.width
           }
