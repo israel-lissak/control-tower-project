@@ -23,21 +23,25 @@ function FlightsLocation() {
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100 p-4">
 
-        <h2 className="text-center text-green-900 font-bold text-2xl">change location</h2>
+        <div className='flex flex-row items-center justify-center gap-4'>
 
-        <button
-        onClick={() => setVisible(!visible)}
-        >
-            {visible ? "close menu 🔼" : "open menu 🔽"}
-        </button>
+            <h2 className="text-center text-green-900 font-bold text-2xl">change location</h2>
+
+            <button
+            onClick={() => setVisible(!visible)}
+            >
+                {visible ? "🔼" : "🔽"}
+            </button>
+        </div>
+
 
         {visible && 
         <div className="flex flex-row items-center justify-center gap-4">
             {location.map((item, index) =>(
                 <div key={index} className="flex flex-col items-center justify-center border-2 rounded-lg p-4">
 
+                    <p className='font-bold'>flight number: {item.flight_number}</p>
                     <p>{`hight: ${item.height}, width: ${item.width}`}</p>
-                    <p>flight number: {item.flight_number}</p>
 
                     <input 
                     type="text" 

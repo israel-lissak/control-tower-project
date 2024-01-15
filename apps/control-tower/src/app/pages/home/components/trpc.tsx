@@ -19,6 +19,8 @@ function Trpc() {
     const [alerts, setAlerts] = useState<string[]>([])
 
     useEffect(() => {
+      console.count("effect trpc");
+      
         const fetchTrpc = async () => {
           try {
             const data = await client.getAllFlights.query()
@@ -38,7 +40,7 @@ function Trpc() {
     
         fetchTrpc();
         fetchTrpc2();
-      }, [alerts]);
+      }, []);
 
     
   return (

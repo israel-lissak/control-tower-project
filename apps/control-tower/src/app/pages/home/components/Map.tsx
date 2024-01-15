@@ -64,8 +64,8 @@ function MapComponent() {
         markersLayer
       ],
       view: new View({
-        center: [3893903,3770461],
-        zoom: 1,
+        center: [0,0],
+        zoom: 4,
         minZoom: 0,
         maxZoom: 28,
       }),
