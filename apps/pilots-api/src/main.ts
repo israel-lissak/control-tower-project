@@ -17,7 +17,7 @@ app.use(cors());
 
 app.use(
   postgraphile(
-    process.env.DATABASE_URL || "postgres://postgres:postsqlilil@localhost:5432/control_tower",
+    process.env.DATABASE_URL,
     "control_tower_schema",
     {
       watchPg: true,
