@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize';
 
-const sequelizeConection = new Sequelize('flights', 'postgres', 'postsqlilil', {
-    host: 'localhost',
+const sequelizeConection = new Sequelize(process.env.DATABASE, process.env.USER_NAME, process.env.PASSWORD, {
+    host: process.env.HOST,
     dialect: 'postgres',
-    schema: 'flights_schema',
+    schema: process.env.SCHEMA,
     logging: false,
   });
   
