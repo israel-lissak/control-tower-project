@@ -10,10 +10,12 @@ const useGraphQLRequest = () => {
     setError(null);
 
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(import.meta.env.VITE_GRAPHQ_SERVER, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
+          "authorization": `Bearer ${token}` 
         },
         body: JSON.stringify({
           query: gql`${mutation}`,

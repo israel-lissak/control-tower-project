@@ -45,6 +45,7 @@ const appRouter = t.router({
 
   getAllFlights: t.procedure.query(async () => {
 
+
     const rowData = await Flights.findAll();
     const flights = rowData.map((flight) => flight.get())
     
@@ -58,6 +59,7 @@ const appRouter = t.router({
       width: z.number()
     })
   })).mutation(async (req) => {
+    
     const { flight_number, current_point } = req.input;
     const rowData = await Flights.update(
       { current_point: { height: current_point.height, width: current_point.width } }, 

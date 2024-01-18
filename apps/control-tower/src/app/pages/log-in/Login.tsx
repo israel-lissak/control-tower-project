@@ -57,6 +57,10 @@ import { TEInput, TERipple } from "tw-elements-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useGraphQLRequest from "../../utils/useGraphQLRequest";
+import jwt from 'jsonwebtoken';
+import { gql } from 'graphql-request';
+
+
 
 export default function Login(): JSX.Element {
   const navigate = useNavigate();
@@ -81,6 +85,49 @@ export default function Login(): JSX.Element {
       console.log(JSON.stringify(data), "data");
 
       if (password === data.pilotByEmail.password) {
+        console.log('password is correct');
+        navigate(`/pilot/${email}`);
+      } else {
+        console.log('password is incorrect');
+        setWrongPassword("password is incorrect");
+      }
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
+  const handelLoginJwt = async () => {
+    const mutation = `
+      mutation MyMutation {
+        authenticate(input: {email: "${email}", password: "${password}"}) {
+          jwtToken
+        }
+      }
+    `;
+
+    try {
+      // const data = await sendRequest(mutation);
+      const response = await fetch(import.meta.env.VITE_GRAPHQ_SERVER, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          // "authorization": `Bearer ${token}` 
+        },
+        body: JSON.stringify({
+          query: gql`${mutation}`,
+        }),
+      });
+
+      const data = await response.json();
+
+      
+      console.log(JSON.stringify(data.data.authenticate.jwtToken), "- token");
+      
+      if (data.data.authenticate.jwtToken) {
+
+        //לשמור את הטוקן
+        localStorage.setItem("token", data.data.authenticate.jwtToken)
+
         console.log('password is correct');
         navigate(`/pilot/${email}`);
       } else {
@@ -177,7 +224,7 @@ export default function Login(): JSX.Element {
                               background:
                                 "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
                             }}
-                            onClick={handelLogin}
+                            onClick={handelLoginJwt}
                           >
                             Log in
                           </button>
