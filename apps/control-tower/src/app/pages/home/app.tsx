@@ -16,7 +16,11 @@ import { FlightType } from 'apps/flights-api/src/types/flightType';
 const client = createTRPCProxyClient<AppRouter>({
   links: [
       httpBatchLink({
-          url: 'http://localhost:3333/trpc'
+          url: 'http://localhost:3333/trpc',
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('token')
+          },
       }),
   ],
 })

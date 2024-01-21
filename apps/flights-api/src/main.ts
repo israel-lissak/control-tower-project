@@ -42,6 +42,7 @@ import cors from 'cors';
 import { flightsRouter, appRouter } from './routes/flightsRouter';
 import sequelizeConection from './configs/db';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
+import authenticateJWT from './middlewares/authenticateJWT'
 
 const app = express();
 app.use(cors());
@@ -65,7 +66,7 @@ wss.on('connection', (socket) => {
 
 app.use('/flights', flightsRouter);
 
-app.use('/trpc', createExpressMiddleware({
+app.use('/trpc', authenticateJWT, createExpressMiddleware({
   router: appRouter,
 }));
 

@@ -52,6 +52,7 @@ const appRouter = t.router({
     return flights;
   }),
 
+
   updateFlights: t.procedure.input(z.object({
     flight_number: z.string(),
     current_point: z.object({
@@ -65,6 +66,7 @@ const appRouter = t.router({
       { current_point: { height: current_point.height, width: current_point.width } }, 
       { where: { flight_number: flight_number }}
     );  }),
+    
   
   getAlerts: t.procedure.query(async () => {
     
