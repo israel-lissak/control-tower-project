@@ -3,6 +3,8 @@ import Flights from "../models/FlightsModel";
 import { t } from '../trpc';
 import { z } from 'zod';
 import { FlightType } from '../types/flightType';
+import { initTRPC, TRPCError } from '@trpc/server';
+
 
 function haversine(lat1, lon1, lat2, lon2) {
   const R = 6371; 
@@ -41,10 +43,21 @@ flightsRouter.get('/allflights', async (req, res) => {
 });
 
 
+export const protectedProcedure = t.procedure.use(async function isAuthed(opts) {
+
+  const { ctx } = opts;
+
+  if (!ctx.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  return opts.next();
+});
+
+
+
 const appRouter = t.router({
 
-  getAllFlights: t.procedure.query(async () => {
-
+  getAllFlights: protectedProcedure.query(async () => {
 
     const rowData = await Flights.findAll();
     const flights = rowData.map((flight) => flight.get())
@@ -53,22 +66,27 @@ const appRouter = t.router({
   }),
 
 
-  updateFlights: t.procedure.input(z.object({
+  updateFlights: protectedProcedure.input(
+    z.object({
     flight_number: z.string(),
     current_point: z.object({
       height: z.number(),
       width: z.number()
     })
-  })).mutation(async (req) => {
+  }
+  )
+  ).mutation(async (req) => {
     
-    const { flight_number, current_point } = req.input;
+    const { flight_number, current_point } = req.input as any;
     const rowData = await Flights.update(
       { current_point: { height: current_point.height, width: current_point.width } }, 
       { where: { flight_number: flight_number }}
-    );  }),
+    );  
     
+  }),
+
   
-  getAlerts: t.procedure.query(async () => {
+  getAlerts: protectedProcedure.query(async () => {
     
     const rowData = await Flights.findAll();
     const flights = rowData.map((flight) => flight.get())

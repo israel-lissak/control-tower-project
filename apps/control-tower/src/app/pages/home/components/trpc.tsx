@@ -23,7 +23,6 @@ function Trpc() {
     const [alerts, setAlerts] = useState<string[]>([])
 
     useEffect(() => {
-      console.count("effect trpc");
       
         const fetchTrpc = async () => {
           try {
@@ -49,18 +48,6 @@ function Trpc() {
     
   return (
     <div>
-       {/* <h2 className="text-center text-green-900 font-bold text-2xl">tRPC</h2>
-
-       <ul className="center w-96">
-        {result.map((flight) => (
-            <div key={flight.flight_id}>
-            <li className="text-center w-full border-b-2 border-neutral-100 border-opacity-100 py-4 dark:border-opacity-50" >
-                <p>{JSON.stringify(flight)}</p>
-            </li> 
-            </div>
-        ))}
-      </ul> */}
-
 
       <div className='w-96 m-auto'>
         <h2 className="text-center text-green-900 font-bold text-2xl">Alerts</h2>

@@ -1,11 +1,9 @@
 import { useAtom } from 'jotai';
 import { flightsLocation } from '../app';
-// import { useState } from 'react';
 
 import { createTRPCProxyClient, httpBatchLink} from '@trpc/client';
 import { AppRouter } from '../../../../../../flights-api/src/main';
-import { useEffect, useState } from 'react';
-import { FlightType } from 'apps/flights-api/src/types/flightType';
+import { useState } from 'react';
 
 const client = createTRPCProxyClient<AppRouter>({
     links: [
@@ -61,7 +59,7 @@ function FlightsLocation() {
                             newLocation[index].height = parseInt(heightInputElement.value);
                             setLocation(newLocation);
                         }
-                        await client.updateFlights.mutate({flight_number: item.flight_number, current_point: location[index]})
+                        await client.updateFlights.mutate({flight_number: item.flight_number, current_point: location[index]});
 
                     }}
                     className= "bg-blue-300 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded m-2"
